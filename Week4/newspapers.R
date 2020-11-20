@@ -126,7 +126,7 @@ dnz_api_plot <- function(
 
 pdf(
     file = "rout.pdf",
-    width = 13,
+    width = 17,
     height = 7
 )
 
