@@ -27,7 +27,7 @@ DNZapiComponents$url1 <- paste(
     sep = ""
 )
 
-query_base <- "&and%5Bcollection%5D%5B%5D=Papers+Past&text=lithuania"
+query_base <- "&and%5Bcollection%5D%5B%5D=Papers+Past&text=poland"
 
 dnz_api_tibble <- function(
     query
