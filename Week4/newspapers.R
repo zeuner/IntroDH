@@ -106,17 +106,35 @@ dnz_api_data <- function(
     )
 }
 
-result <- dnz_api_data(
-    query_base
+dnz_api_plot <- function(
+    base_query
+) {
+    result <- dnz_api_data(
+        base_query
+    )
+    result %>% ggplot(
+        aes(
+            x = Date,
+            fill = Publisher
+        )
+    ) + geom_histogram(
+        bins = 50L
+    ) + scale_fill_hue(
+    ) + theme_minimal(
+    )
+}
+
+pdf(
+    file = "rout.pdf",
+    width = 13,
+    height = 7
 )
 
-result %>% ggplot(
-    aes(
-        x = Date,
-        fill = Publisher
+print(
+    dnz_api_plot(
+        query_base
     )
-) + geom_histogram(
-    bins = 50L
-) + scale_fill_hue(
-) + theme_minimal(
+)
+
+dev.off(
 )
