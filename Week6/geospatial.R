@@ -97,6 +97,10 @@ for (i in seq_along(features$V1)) {
 locs <- filter(locsRaw, grepl("amphitheatre",featureTypes))
 locPer <- filter(locs, grepl("roman",timePeriodsKeys))
 
+png(
+    "geospatial1.png"
+)
+
 ggplot(locPer) +
   coord_map(xlim = xlim, ylim = ylim) +
   geom_polygon(data = worldmap, 
@@ -126,12 +130,15 @@ ggplot(locPer) +
   theme_minimal(base_family = "serif") +
   theme(panel.background = element_rect(fill = "darkslategrey"))
 
+dev.off(
+)
+
 sf_locPer <- locPer %>% filter(!is.na(reprLong)) %>% filter(!is.na(reprLat))
 sp::coordinates(sf_locPer) <- c("reprLong", "reprLat")
 sp::proj4string(sf_locPer) <- sp::CRS("+init=epsg:4326")
 
 # on how to use Github with R see https://r-pkgs.org/git.html
-remotes::install_github("r-spatial/mapview")
+# remotes::install_github("r-spatial/mapview")
 mapviewOptions(
   basemaps = c("Esri.WorldShadedRelief", "Stamen.TonerLite"),
   raster.palette = grey.colors,
@@ -148,6 +155,10 @@ ylim <- c(47,55)
 
 locs <- filter(locsRaw, grepl("fort",featureTypes))
 locPer <- filter(locs, grepl("late-antique",timePeriodsKeys))
+
+png(
+    "geospatial2.png"
+)
 
 ggplot(locPer) +
   coord_map(xlim = xlim, ylim = ylim) +
@@ -172,4 +183,5 @@ ggplot(locPer) +
   
   theme(panel.background = element_rect(fill = "darkslategrey"))
 
-
+dev.off(
+)
