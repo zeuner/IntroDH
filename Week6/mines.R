@@ -120,8 +120,8 @@ ores$file_name_part <- ores_filename_clean
 locs_geom <- geom_point(
     data = locs_raw,
     aes(
-        reprLong,
-        reprLat
+        x = reprLong,
+        y = reprLat
     ),
     color = "grey70",
     alpha = .75,
@@ -156,7 +156,6 @@ for (
         " mines"
     )
     p <- ggplot(
-        locs_ore
     )
     p <- p + coord_map(
         xlim = xlim,
@@ -176,13 +175,14 @@ for (
     )
     p <- p + locs_geom
     p <- p + geom_point(
+        data = locs_ore,
         aes(
-            y = reprLat,
-            x = reprLong
+            x = reprLong,
+            y = reprLat
         ),
         color = "salmon",
         alpha = .75,
-        size=1
+        size = 1
     )
     p <- p + labs(
         title = header,
