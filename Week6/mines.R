@@ -157,10 +157,12 @@ for (
     )
     p <- ggplot(
         locs_ore
-    ) + coord_map(
+    )
+    p <- p + coord_map(
         xlim = xlim,
         ylim = ylim
-    ) + geom_polygon(
+    )
+    p <- p + geom_polygon(
         data = worldmap,
         mapping = aes(
             X,
@@ -171,7 +173,9 @@ for (
         colour = landborder,
         fill = land,
         alpha = 1
-    ) + locs_geom + geom_point(
+    )
+    p <- p + locs_geom
+    p <- p + geom_point(
         aes(
             y = reprLat,
             x = reprLong
@@ -179,11 +183,13 @@ for (
         color = "salmon",
         alpha = .75,
         size=1
-    ) + labs(
+    )
+    p <- p + labs(
         title = header,
         y = "",
         x = ""
-    ) + annotate(
+    )
+    p <- p + annotate(
         "text",
         x = -11,
         y = 21,
@@ -191,9 +197,11 @@ for (
         label = dataLabel,
         size = 3,
         color = "grey40"
-   ) + theme_minimal(
+    )
+    p <- p + theme_minimal(
         base_family = "serif"
-   ) + theme(
+    )
+    p <- p + theme(
         panel.background = element_rect(
             fill = "darkslategrey"
         )
