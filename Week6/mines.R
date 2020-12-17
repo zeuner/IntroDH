@@ -96,27 +96,6 @@ ores <- (
     )
 )
 
-ores_filename_clean <- vector(
-)
-
-ores_tags <- ores$tags
-
-for (
-    i in seq_along(
-        ores_tags
-    )
-) {
-    ores_filename_clean[i] <- sub(
-        "[^a-zA-Z]",
-        "_",
-        ores_tags[[
-            i
-        ]]
-    )
-}
-
-ores$file_name_part <- ores_filename_clean
-
 locs_geom <- geom_point(
     data = locs_raw,
     aes(
@@ -127,6 +106,33 @@ locs_geom <- geom_point(
     alpha = .75,
     size = 1
 )
+
+file_name <- "Pleiades_mines.png"
+
+header <- "mines"
+
+p <- ggplot(
+)
+
+p <- p + coord_map(
+    xlim = xlim,
+    ylim = ylim
+)
+
+p <- p + geom_polygon(
+    data = worldmap,
+    mapping = aes(
+        X,
+        Y,
+        group = PID
+    ),
+    size = 0.1,
+    colour = landborder,
+    fill = land,
+    alpha = 1
+)
+
+p <- p + locs_geom
 
 for (
     i in seq_along(
@@ -142,75 +148,51 @@ for (
             tags
         )
     )
-    file_name <- paste0(
-        'Pleiades_',
-        ores$file_name_part[
-            i
-        ],
-        ".png"
-    )
-    header <- paste0(
-        ores$tags[
-            i
-        ],
-        " mines"
-    )
-    p <- ggplot(
-    )
-    p <- p + coord_map(
-        xlim = xlim,
-        ylim = ylim
-    )
-    p <- p + geom_polygon(
-        data = worldmap,
-        mapping = aes(
-            X,
-            Y,
-            group = PID
-        ),
-        size = 0.1,
-        colour = landborder,
-        fill = land,
-        alpha = 1
-    )
-    p <- p + locs_geom
+    mined <- ores$tags[
+        i
+    ]
     p <- p + geom_point(
         data = locs_ore,
         aes(
             x = reprLong,
-            y = reprLat
+            y = reprLat,
+            col = mined
         ),
-        color = "salmon",
         alpha = .75,
         size = 1
     )
-    p <- p + labs(
-        title = header,
-        y = "",
-        x = ""
-    )
-    p <- p + annotate(
-        "text",
-        x = -11,
-        y = 21,
-        hjust = 0,
-        label = dataLabel,
-        size = 3,
-        color = "grey40"
-    )
-    p <- p + theme_minimal(
-        base_family = "serif"
-    )
-    p <- p + theme(
-        panel.background = element_rect(
-            fill = "darkslategrey"
-        )
-    )
-    ggsave(
-        file = file_name,
-        plot = p,
-        dpi = 600,
-        width = 7,
-        height = 6
-    )
 } 
+
+p <- p + labs(
+    title = header,
+    y = "",
+    x = ""
+)
+
+p <- p + annotate(
+    "text",
+    x = -11,
+    y = 21,
+    hjust = 0,
+    label = dataLabel,
+    size = 3,
+    color = "grey40"
+)
+
+p <- p + theme_minimal(
+    base_family = "serif"
+)
+
+p <- p + theme(
+    panel.background = element_rect(
+        fill = "darkslategrey"
+    )
+)
+
+ggsave(
+    file = file_name,
+    plot = p,
+    dpi = 600,
+    width = 7,
+    height = 6
+)
