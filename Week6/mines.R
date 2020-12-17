@@ -89,13 +89,6 @@ locs <- filter(
     )
 )
 
-ores <- (
-    locs %>% distinct(
-        tags,
-        .keep_all = TRUE
-    )
-)
-
 locs_geom <- geom_point(
     data = locs_raw,
     aes(
@@ -105,6 +98,9 @@ locs_geom <- geom_point(
     color = "grey70",
     alpha = .75,
     size = 1
+)
+
+mined <- vector(
 )
 
 file_name <- "Pleiades_mines.png"
@@ -134,34 +130,16 @@ p <- p + geom_polygon(
 
 p <- p + locs_geom
 
-for (
-    i in seq_along(
-        ores$tags
-    )
-) {
-    locs_ore <- filter(
-        locs,
-        grepl(
-            ores$tags[
-                i
-            ],
-            tags
-        )
-    )
-    mined <- ores$tags[
-        i
-    ]
-    p <- p + geom_point(
-        data = locs_ore,
-        aes(
-            x = reprLong,
-            y = reprLat,
-            col = mined
-        ),
-        alpha = .75,
-        size = 1
-    )
-} 
+p <- p + geom_point(
+    data = locs,
+    aes(
+        x = reprLong,
+        y = reprLat,
+        col = tags
+    ),
+    alpha = .75,
+    size = 1
+)
 
 p <- p + labs(
     title = header,
