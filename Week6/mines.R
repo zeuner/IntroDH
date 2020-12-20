@@ -100,9 +100,6 @@ locs_geom <- geom_point(
     size = 1
 )
 
-mined <- vector(
-)
-
 file_name <- "Pleiades_mines.png"
 
 header <- "mines"
