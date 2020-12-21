@@ -6,6 +6,10 @@ library(
     PBSmapping
 )
 
+library(
+    gganimate
+)
+
 xlim <- c(
     -12,
     55
@@ -89,8 +93,53 @@ locs <- filter(
     )
 )
 
+preprocess_periods <- function(
+    locs_base
+) {
+    locs_processed <- (
+        locs_base %>% mutate(
+            timePeriodsKeys = strsplit(
+                as.character(
+                    timePeriodsKeys
+                ),
+                ","
+            )
+        ) %>% unnest(
+            timePeriodsKeys
+        )
+    )
+    locs_processed <- filter(
+        locs_processed,
+        grepl(
+            '^(archaic|classical|hellenistic-republican|roman|late-antique)$',
+            timePeriodsKeys
+        )
+    )
+    locs_processed$timePeriodsKeys <- factor(
+        locs_processed$timePeriodsKeys,
+        levels = c(
+            "archaic",
+            "classical",
+            "hellenistic-republican",
+            "roman",
+            "late-antique"
+        )
+    )
+    return(
+        locs_processed
+    )
+}
+
+locs <- preprocess_periods(
+    locs
+)
+
+locs_indif <- preprocess_periods(
+    locs_raw
+)
+
 locs_geom <- geom_point(
-    data = locs_raw,
+    data = locs_indif,
     aes(
         x = reprLong,
         y = reprLat
@@ -100,11 +149,15 @@ locs_geom <- geom_point(
     size = 1
 )
 
-file_name <- "Pleiades_mines.png"
+file_name <- "Pleiades_mines.gif"
 
-header <- "mines"
+header <- "Mines in the {closest_state} period"
 
 p <- ggplot(
+)
+
+p <- p + transition_states(
+    timePeriodsKeys
 )
 
 p <- p + coord_map(
@@ -164,10 +217,23 @@ p <- p + theme(
     )
 )
 
-ggsave(
-    file = file_name,
-    plot = p,
-    dpi = 600,
-    width = 7,
-    height = 6
+p <- p + enter_grow(
+)
+
+p <- p + exit_shrink(
+)
+
+p <- p + ease_aes(
+    'cubic-in-out'
+)
+
+animation <- animate(
+    p,
+    width = 4200,
+    height = 3600
+)
+
+anim_save(
+    file_name,
+    animation = animation
 )
