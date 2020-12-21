@@ -228,9 +228,7 @@ p <- p + ease_aes(
 )
 
 animation <- animate(
-    p,
-    width = 4200,
-    height = 3600
+    p
 )
 
 anim_save(
