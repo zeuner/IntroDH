@@ -11,30 +11,24 @@ try {
         raw
     )
     console.log(
-        "Source,Target"
+        "id,label,scene_occ"
     )
     for (
         var i = 0;
-        data.links.length > i;
+        data.nodes.length > i;
         i++
     ) {
-        var link = data.links[
+        var node = data.nodes[
             i
         ]
         console.log(
-            '"' + data.nodes[
-                link.source
-            ].name.split(
-                '"'
-            ).join(
-                '""'
-            ) + '","' + data.nodes[
-                link.target
-            ].name.split( 
+            '' + (
+                i + 1
+            ) + ',"' + node.name.split( 
                 '"' 
             ).join( 
                 '""' 
-            ) + '"'
+            ) + '",' + node.value
         )
     }
 } catch (
